@@ -21,6 +21,17 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+
+  <!--Apache Shiro Filter-->
+  <filter>
+    <filter-name>shiroFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>shiroFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   
   <servlet>
     <servlet-name>mvc</servlet-name>
@@ -42,7 +53,10 @@
     <param-value>classpath*:applicationContext*.xml</param-value>
   </context-param>
 
-
+  <error-page>
+    <error-code>401</error-code>
+    <location>/static/html/401.html</location>
+  </error-page>
   
   
 </web-app>

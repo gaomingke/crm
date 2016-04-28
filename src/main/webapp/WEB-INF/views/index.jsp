@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,13 +41,19 @@
                     <h3 class="panel-title"><i class="fa fa-coffee"></i> CRM系统登录</h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form">
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            ${message}
+                        </div>
+                    </c:if>
+                    <form id="loginForm" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="账号" name="email" type="email" autofocus>
+                                <input class="form-control" placeholder="账号" name="tel" type="text" id="tel" autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="密码" name="password" type="password" value="">
+                                <input class="form-control" placeholder="密码" name="password" type="password" id="password" value="">
                             </div>
                             <div class="checkbox">
                                 <label>
@@ -54,7 +61,7 @@
                                 </label>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <a href="index.html" class="btn btn-lg btn-success btn-block">进入系统</a>
+                            <button id="loginBtn" type="button" class="btn btn-lg btn-success btn-block">进入系统</button>
                         </fieldset>
                     </form>
                 </div>
@@ -71,6 +78,26 @@
 <script src="/static/js/metisMenu/metisMenu.min.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="/static/js/sb-admin-2.js"></script>
+
+<script>
+    $(function(){
+
+        $("#loginBtn").click(function(){
+            if(!$("#tel").val()) {
+                $("#tel").focus();
+                return;
+            }
+            if(!$("#password").val()) {
+                $("#password").focus();
+                return;
+            }
+            $("#loginForm").submit();
+        });
+
+
+    });
+</script>
+
 
 </body>
 
