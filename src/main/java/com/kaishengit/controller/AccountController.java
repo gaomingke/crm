@@ -3,6 +3,7 @@ package com.kaishengit.controller;
 import com.google.common.collect.Maps;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.UserService;
+import com.kaishengit.util.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +49,7 @@ public class AccountController {
         param.put("start",start);
         param.put("length",length);
         if(StringUtils.isNotEmpty(searchValue)) {
-            param.put("keyword", "%" + searchValue + "%");
+            param.put("keyword", "%" + Strings.toUTF8(searchValue) + "%");
         }
         param.put("orderColumn",orderColumnName);
         param.put("orderType",orderType);
@@ -57,13 +59,56 @@ public class AccountController {
         Map<String,Object> result = Maps.newHashMap();
 
         List<User> userList = userService.findUserByParam(param); //.findAllUser();
+        Integer count = userService.findUserCount();
+        Integer filteredCount = userService.findUserCountByParam(param);
 
         result.put("draw",draw);
-        result.put("recordsTotal",userList.size());
-        result.put("recordsFiltered",userList.size());
+        result.put("recordsTotal",count); //总记录数
+        result.put("recordsFiltered",filteredCount); //过滤出来的数量
         result.put("data",userList);
 
 
         return result;
+    }
+
+    /**
+     * 添加新用户
+     * @return
+     */
+    @RequestMapping(value = "/new",method = RequestMethod.POST)
+    @ResponseBody
+    public String newUser(User user,String[] role) {
+        userService.saveNewUser(user,role);
+        return "success";
+    }
+
+    /**
+     * 删除用户
+     */
+    @RequestMapping(value = "/del",method = RequestMethod.POST)
+    @ResponseBody
+    public String delUser(Integer id) {
+        userService.delUserById(id);
+        return "success";
+    }
+
+    /**
+     * 根据ID获取用户信息
+     */
+    @RequestMapping(value = "/user.json",method = RequestMethod.GET)
+    @ResponseBody
+    public User getUserInfo(Integer id) {
+        return userService.findUserWithRoleById(id);
+    }
+
+    /**
+     * 编辑用户
+     * @return
+     */
+    @RequestMapping(value = "/edit",method = RequestMethod.POST)
+    @ResponseBody
+    public String editUser(User user,String[] role) {
+        userService.editUser(user,role);
+        return "success";
     }
 }

@@ -1,6 +1,7 @@
 package com.kaishengit.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -14,6 +15,7 @@ public class User implements Serializable {
     private String tel;
     private String createtime;
     private String state;
+    private List<Role> roleList;
 
     public Integer getId() {
         return id;
@@ -61,5 +63,13 @@ public class User implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }
