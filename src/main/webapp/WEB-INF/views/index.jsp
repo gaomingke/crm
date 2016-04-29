@@ -42,9 +42,9 @@
                 </div>
                 <div class="panel-body">
                     <c:if test="${not empty message}">
-                        <div class="alert alert-info">
+                        <div class="alert ${message.state}">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            ${message}
+                            ${message.message}
                         </div>
                     </c:if>
                     <form id="loginForm" method="post">

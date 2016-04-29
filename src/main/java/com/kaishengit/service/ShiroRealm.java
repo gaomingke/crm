@@ -59,8 +59,11 @@ public class ShiroRealm extends AuthorizingRealm {
         String tel = token.getUsername();
         User user = userMapper.findByTel(tel);
         if(user != null) {
-            return new SimpleAuthenticationInfo(user,user.getPassword(),getName());
+            if(User.USER_STATE_DISABLE.equals(user.getState())) {
+                throw new LockedAccountException("该账号已被禁用");
+            }
+            return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         }
-        return null;
+        throw new UnknownAccountException("账号或密码错误");
     }
 }

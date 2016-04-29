@@ -1,9 +1,14 @@
 package com.kaishengit.controller;
 
+import com.kaishengit.dto.Message;
+import com.kaishengit.pojo.User;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -44,10 +49,20 @@ public class HomeController {
         try {
             //登录，调用ShiroRealm类中的登录认证方法
             subject.login(new UsernamePasswordToken(tel, DigestUtils.md5Hex(password+passwordSalt)));
+
+            //将登录的对象放入到Session中
+            Session session = subject.getSession();
+            session.setAttribute(User.SESSION_KEY,(User)subject.getPrincipal());
+
             return "redirect:/home";
+        } catch (LockedAccountException ex) {
+            redirectAttributes.addFlashAttribute("message",new Message(Message.ERROR,ex.getMessage()));
+            return "redirect:/";
+        } catch (UnknownAccountException ex) {
+            redirectAttributes.addFlashAttribute("message",new Message(Message.ERROR,ex.getMessage()));
+            return "redirect:/";
         } catch (AuthenticationException ex) {
-            ex.printStackTrace();
-            redirectAttributes.addFlashAttribute("message","账号或密码错误");
+            redirectAttributes.addFlashAttribute("message",new Message(Message.ERROR,"账号或密码错误"));
             return "redirect:/";
         }
     }
@@ -61,7 +76,7 @@ public class HomeController {
     public String logout(RedirectAttributes redirectAttributes) {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        redirectAttributes.addFlashAttribute("message","你已安全退出");
+        redirectAttributes.addFlashAttribute("message",new Message(Message.SUCCESS,"你已安全退出"));
         return "redirect:/";
     }
 

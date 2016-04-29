@@ -8,4 +8,19 @@
     <select id="findByTel" resultType="com.kaishengit.pojo.User">
       SELECT * FROM t_user WHERE tel = #{tel}
     </select>
+    <select id="findAll" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user
+    </select>
+
+    <select id="findByParam" parameterType="map" resultType="User">
+        SELECT * FROM t_user
+        <where>
+            <if test="keyword != null and keyword != ''">
+                username LIKE #{keyword} or tel like #{keyword}
+            </if>
+        </where>
+        order by ${orderColumn} ${orderType}
+        limit ${start},${length}
+    </select>
+
 </mapper>

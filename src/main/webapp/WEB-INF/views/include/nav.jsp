@@ -53,7 +53,7 @@
 
                     <!-- /.nav-second-level -->
                 </li>
-                <shiro:hasRole name="经理">
+                <shiro:hasRole name="管理员">
                     <li>
                         <a href="/account"><i class="fa fa-sitemap fa-fw"></i> 用户管理</a>
                     </li>

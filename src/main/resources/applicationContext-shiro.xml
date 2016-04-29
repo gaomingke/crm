@@ -19,7 +19,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /static/** = anon
-                /account/** = roles[经理]
+                /account/** = roles[管理员]
                 /** = authc
             </value>
         </property>
