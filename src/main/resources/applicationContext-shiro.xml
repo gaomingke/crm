@@ -18,6 +18,7 @@
         <property name="successUrl" value="/home"/>
         <property name="filterChainDefinitions">
             <value>
+                /favicon.ico = anon
                 /static/** = anon
                 /account/** = roles[管理员]
                 /** = authc
