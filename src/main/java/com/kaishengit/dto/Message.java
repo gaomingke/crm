@@ -1,5 +1,9 @@
 package com.kaishengit.dto;
 
+/**
+ * 消息提示类
+ * @author fankay
+ */
 public class Message {
 
     public static final String SUCCESS = "alert-success";
