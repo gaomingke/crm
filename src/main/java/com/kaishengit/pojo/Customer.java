@@ -4,6 +4,15 @@ import java.io.Serializable;
 
 public class Customer implements Serializable {
 
+    public static final String PROGRESS_NEW = "无";
+    public static final String PROGRESS_PRICE = "报价";
+    public static final String PROGRESS_INTERTION = "意向";
+    public static final String PROGRESS_SUCCESS = "成交";
+    public static final String PROGRESS_FAIL = "暂时搁置";
+    public static final String PROGRESS_VISIT = "初访";
+
+
+
     private Integer id;
     private String custname;
     private String contact;

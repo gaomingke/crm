@@ -5,15 +5,21 @@
     <cache/>
 
     <insert id="save">
-        INSERT into t_customer(custname,contact,tel,email,address,wechar,qq,createtime,mark,userid)
-        VALUES (#{custname},#{contact},#{tel},#{email},#{address},#{wechar},#{qq},#{createtime},#{mark},#{userid})
+        INSERT into t_customer(custname,contact,tel,email,address,wechar,qq,createtime,mark,userid,progress)
+        VALUES (#{custname},#{contact},#{tel},#{email},#{address},#{wechar},#{qq},#{createtime},#{mark},#{userid},#{progress})
     </insert>
 
     <select id="findByParam" parameterType="map" resultType="Customer">
         SELECT * FROM t_customer
         <where>
-            <if test="keyword != null and keyword != ''">
-                (custname LIKE #{keyword} or contact like #{keyword})
+            <if test="seaName != null and seaName != ''">
+                (custname LIKE #{seaName} or contact like #{seaName})
+            </if>
+            <if test="seaTel != null and seaTel != ''">
+                and tel like #{seaTel}
+            </if>
+            <if test="seaState != null and seaState != ''">
+               and progress = #{seaState}
             </if>
         </where>
         order by ${orderColumn} ${orderType}
@@ -26,8 +32,14 @@
     <select id="countByParam" resultType="java.lang.Long">
         SELECT COUNT(*) FROM t_customer
         <where>
-            <if test="keyword != null and keyword != ''">
-                (custname LIKE #{keyword} or contact like #{keyword})
+            <if test="seaName != null and seaName != ''">
+                (custname LIKE #{seaName} or contact like #{seaName})
+            </if>
+            <if test="seaTel != null and seaTel != ''">
+                and tel like #{seaTel}
+            </if>
+            <if test="seaState != null and seaState != ''">
+                and progress = #{seaState}
             </if>
         </where>
     </select>

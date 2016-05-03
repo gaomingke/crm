@@ -43,7 +43,36 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+
                     <div class="panel panel-default top_panel">
+                        <div class="panel-heading">
+                            <i class="fa fa-search"></i> 搜索
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-inline" id="searchForm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="客户姓名或联系人" id="seaName">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="联系电话" id="seaTel">
+                                </div>
+                                <div class="form-group">
+                                    <select id="seaState" class="form-control">
+                                        <option value="">客户状态</option>
+                                        <option value="无">无</option>
+                                        <option value="初访">初访</option>
+                                        <option value="意向">意向</option>
+                                        <option value="报价">报价</option>
+                                        <option value="成交">成交</option>
+                                        <option value="暂时搁置">暂时搁置</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="searchBtn">搜索</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-users"></i> 客户列表
                             <a href="" style="margin-left: 15px;" class="pull-right btn btn-primary btn-xs">
@@ -165,13 +194,18 @@
         var table = $("#cust_table").DataTable({
             "processing": true, //loding效果
             "serverSide":true, //服务端处理
-            "searchDelay": 1000,//搜索延迟
+            "searching":false,//不使用自带的搜索
             "order":[[1,'desc']],//默认排序方式
             "lengthMenu":[10,25,50,100],//每页显示数据条数菜单
             "ordering":false,
             "ajax":{
                 url:"/customer/customers.json", //获取数据的URL
-                type:"get" //获取数据的方式
+                type:"get", //获取数据的方式
+                data:function(d){
+                    d.seaName = $("#seaName").val();
+                    d.seaTel = $("#seaTel").val();
+                    d.seaState = $("#seaState").val();
+                }
             },
             "columns":[  //返回的JSON中的对象和列的对应关系
                 {"data":function(row){
@@ -205,6 +239,11 @@
                     "previous":   "上一页"
                 }
             }
+        });
+
+        //自定义搜索
+        $("#searchBtn").click(function(){
+            table.draw();
         });
 
 

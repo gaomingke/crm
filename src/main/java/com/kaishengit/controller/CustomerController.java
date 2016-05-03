@@ -40,7 +40,9 @@ public class CustomerController {
         String draw = request.getParameter("draw");
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length = Integer.valueOf(request.getParameter("length"));
-        String searchValue = request.getParameter("search[value]");
+        String searchName = request.getParameter("seaName");
+        String searchTel = request.getParameter("seaTel");
+        String searchState = request.getParameter("seaState");
         String orderColumnIndex = request.getParameter("order[0][column]");
         String orderType = request.getParameter("order[0][dir]");
         String orderColumnName = request.getParameter("columns["+orderColumnIndex+"][name]");
@@ -48,8 +50,14 @@ public class CustomerController {
         Map<String,Object> param = Maps.newHashMap();
         param.put("start",start);
         param.put("length",length);
-        if(StringUtils.isNotEmpty(searchValue)) {
-            param.put("keyword", "%" + Strings.toUTF8(searchValue) + "%");
+        if(StringUtils.isNotEmpty(searchName)) {
+            param.put("seaName", "%" + Strings.toUTF8(searchName) + "%");
+        }
+        if(StringUtils.isNotEmpty(searchTel)) {
+            param.put("seaTel", "%" + Strings.toUTF8(searchTel) + "%");
+        }
+        if(StringUtils.isNotEmpty(searchState)) {
+            param.put("seaState",Strings.toUTF8(searchState));
         }
         if(orderColumnName == null || orderType == null) {
             param.put("orderColumn","id");

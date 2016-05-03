@@ -27,6 +27,7 @@ public class CustomerService {
      * @param customer
      */
     public void saveNewCustomer(Customer customer) {
+        customer.setProgress(Customer.PROGRESS_NEW);
         customer.setUserid(ShiroUtil.getCurrentUserId());
         customer.setCreatetime(DateTime.now().toString("yyyy-MM-dd HH:mm"));
 
