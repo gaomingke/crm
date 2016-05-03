@@ -39,7 +39,7 @@
                     <a href="/home"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
                 </li>
                 <li>
-                    <a href="customer.html"><i class="fa fa-users fa-fw"></i> 客户</a>
+                    <a href="/customer"><i class="fa fa-users fa-fw"></i> 客户</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.CustomerMapper">
+
+    <cache/>
+
+    <insert id="save">
+        INSERT into t_customer(custname,contact,tel,email,address,wechar,qq,createtime,mark,userid)
+        VALUES (#{custname},#{contact},#{tel},#{email},#{address},#{wechar},#{qq},#{createtime},#{mark},#{userid})
+    </insert>
+
+    <select id="findByParam" parameterType="map" resultType="Customer">
+        SELECT * FROM t_customer
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (custname LIKE #{keyword} or contact like #{keyword})
+            </if>
+        </where>
+        order by ${orderColumn} ${orderType}
+        limit ${start},${length}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM t_customer
+    </select>
+    <select id="countByParam" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM t_customer
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (custname LIKE #{keyword} or contact like #{keyword})
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
