@@ -1,14 +1,22 @@
 package com.kaishengit.controller;
 
 import com.google.common.collect.Maps;
+import com.kaishengit.dto.Message;
+import com.kaishengit.exception.ForbiddenException;
+import com.kaishengit.exception.NotFoundException;
 import com.kaishengit.pojo.Customer;
+import com.kaishengit.pojo.User;
 import com.kaishengit.service.CustomerService;
+import com.kaishengit.service.UserService;
 import com.kaishengit.util.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +29,8 @@ public class CustomerController {
 
     @Inject
     private CustomerService customerService;
+    @Inject
+    private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list() {
@@ -67,7 +77,7 @@ public class CustomerController {
             param.put("orderType", orderType);
         }
 
-        List<Customer> userList = customerService.findUserByParam(param); //.findAllUser();
+        List<Customer> userList = customerService.findUserByParam(param);
         Integer count = customerService.findCustomerCount();
         Integer filteredCount = customerService.findUserCountByParam(param);
 
@@ -92,6 +102,72 @@ public class CustomerController {
     }
 
 
+    /**
+     * 查看客户资料
+     * @return
+     */
+    @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
+    public String viewCustomer(@PathVariable Integer id, Model model) {
+        Customer customer = customerService.findCustomerById(id);
+        List<User> userList = userService.findAllUser();
+
+        model.addAttribute("customer",customer);
+        model.addAttribute("userList",userList);
+        return "customer/view";
+    }
+
+    /**
+     * 删除客户
+     */
+    @RequestMapping(value = "/del/{id:\\d+}",method = RequestMethod.GET)
+    public String delCustomer(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        customerService.delCustomer(id);
+        redirectAttributes.addFlashAttribute("message",new Message(Message.SUCCESS,"删除成功"));
+        return "redirect:/customer";
+
+    }
+
+    /**
+     * 公开客户
+     * @return
+     */
+    @RequestMapping(value = "/public/{id:\\d+}",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> publicCustomer(@PathVariable Integer id) {
+        Map<String,Object> result = Maps.newHashMap();
+        try {
+            customerService.publicCustomer(id);
+            result.put("state","success");
+        } catch (NotFoundException ex) {
+            result.put("state","error");
+            result.put("message","客户不存在");
+        } catch (ForbiddenException ex) {
+            result.put("state","error");
+            result.put("message","权限不足");
+        }
+        return result;
+    }
+
+    /**
+     * 转交客户
+     * @return
+     */
+    @RequestMapping("/tran/{custId:\\d+}/{userId:\\d+}")
+    @ResponseBody
+    public Map<String,Object> tranCustomer(@PathVariable Integer custId,@PathVariable Integer userId) {
+        Map<String,Object> result = Maps.newHashMap();
+        try {
+            customerService.tranCustomer(custId, userId);
+            result.put("state","success");
+        } catch (NotFoundException ex) {
+            result.put("state","error");
+            result.put("message",ex.getMessage());
+        } catch (ForbiddenException ex) {
+            result.put("state","error");
+            result.put("message","权限不足");
+        }
+        return result;
+    }
 
 
 

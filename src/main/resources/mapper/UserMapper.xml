@@ -59,6 +59,9 @@
         LEFT JOIN t_role AS r ON ru.`roleid` = r.`id`
         WHERE u.id = #{id}
     </select>
+    <select id="findById" resultType="com.kaishengit.pojo.User">
+        SELECT * FROM t_user WHERE id = #{id}
+    </select>
 
     <resultMap id="userMap" type="User">
         <id column="id" property="id"/>

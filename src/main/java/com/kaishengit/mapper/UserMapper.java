@@ -64,4 +64,11 @@ public interface UserMapper {
      * @param user
      */
     void editUser(User user);
+
+    /**
+     * 根据主键查找用户
+     * @param userId
+     * @return
+     */
+    User findById(Integer userId);
 }

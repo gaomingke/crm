@@ -8,6 +8,15 @@
         INSERT into t_customer(custname,contact,tel,email,address,wechar,qq,createtime,mark,userid,progress)
         VALUES (#{custname},#{contact},#{tel},#{email},#{address},#{wechar},#{qq},#{createtime},#{mark},#{userid},#{progress})
     </insert>
+    <update id="update">
+        UPDATE t_customer SET custname = #{custname},contact = #{contact},tel = #{tel},
+        email = #{email},qq = #{qq},address = #{address},wechar = #{wechar},mark = #{mark},
+        progress = #{progress},progresstime = #{progresstime},userid = #{userid}
+        where id = #{id}
+    </update>
+    <delete id="del">
+        DELETE FROM t_customer WHERE id = #{id}
+    </delete>
 
     <select id="findByParam" parameterType="map" resultType="Customer">
         SELECT * FROM t_customer
@@ -20,6 +29,9 @@
             </if>
             <if test="seaState != null and seaState != ''">
                and progress = #{seaState}
+            </if>
+            <if test="userid != null and userid != ''">
+                and userid = #{userid} or userid is null
             </if>
         </where>
         order by ${orderColumn} ${orderType}
@@ -41,7 +53,13 @@
             <if test="seaState != null and seaState != ''">
                 and progress = #{seaState}
             </if>
+            <if test="userid != null and userid != ''">
+                and userid = #{userid} or userid is null
+            </if>
         </where>
+    </select>
+    <select id="findById" resultType="com.kaishengit.pojo.Customer">
+        SELECT * FROM t_customer WHERE id = #{id}
     </select>
 
 

@@ -32,4 +32,23 @@ public interface CustomerMapper {
      * @return
      */
     Long countByParam(Map<String, Object> param);
+
+    /**
+     * 根据主键查询客户
+     * @param id
+     * @return
+     */
+    Customer findById(Integer id);
+
+    /**
+     * 根据主键删除客户
+     * @param id
+     */
+    void del(Integer id);
+
+    /**
+     * 修改客户信息
+     * @param customer
+     */
+    void update(Customer customer);
 }

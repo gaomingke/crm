@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,6 +44,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+                    <c:if test="${not empty message}">
+                        <div class="alert ${message.state}">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                ${message.message}
+                        </div>
+                    </c:if>
+
 
                     <div class="panel panel-default top_panel">
                         <div class="panel-heading">
@@ -212,7 +220,16 @@
                    return "<input type='checkbox'>";
                 }},
                 {"data":"id","name":"id"},
-                {"data":"custname","name":"custname"},
+                {"data":function(row){
+                    var result = "<a href='/customer/"+row.id+"'>"+row.custname+"</a>";
+                    if(!row.userid) {
+                        result += " <i class='fa fa-unlock text-muted'></i>";
+                    }
+                    return result;
+
+
+
+                },"name":"custname"},
                 {"data":"contact","name":"contact"},
                 {"data":"tel","name":"tel"},
                 {"data":"progress"},
@@ -243,7 +260,7 @@
 
         //自定义搜索
         $("#searchBtn").click(function(){
-            table.draw();
+            table.draw(); // DataTables会自动的执行查询
         });
 
 
