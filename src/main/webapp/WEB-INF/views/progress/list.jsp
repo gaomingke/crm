@@ -48,8 +48,6 @@
                 <div class="col-lg-12">
                     <h4 class="page-header">
                         <i class="fa fa-fax"></i> 跟进列表
-                        <button class="btn btn-primary pull-right btn-sm" id="newBtn"><i class="fa fa-plus"></i> 新增跟进信息</button>
-                        <div class="clearfix"></div>
                     </h4>
 
                     <c:if test="${not empty message}">
@@ -96,69 +94,78 @@
                         </div>
                     </div>
 
-                    <c:forEach items="${page.items}" var="pro">
-                        <c:choose>
-                            <c:when test="${pro.progress == '成交'}">
-                                <div class="panel panel-success">
-                            </c:when>
-                            <c:when test="${pro.progress == '暂时搁置'}">
-                                <div class="panel panel-danger">
-                            </c:when>
-                            <c:otherwise>
-                                <div class="panel panel-default">
-                            </c:otherwise>
-                        </c:choose>
-
-                            <div class="panel-heading">
-                                <i class="fa fa-calendar"></i> ${pro.monthAndDay} - <span class="text-muted">${pro.user.username}</span> - ${pro.customer.custname}
-                                <c:choose>
-                                    <c:when test="${pro.progress == '初访'}">
-                                        <span class="label label-default pull-right">${pro.progress}</span>
-                                    </c:when>
-                                    <c:when test="${pro.progress == '意向'}">
-                                        <span class="label label-info pull-right">${pro.progress}</span>
-                                    </c:when>
-                                    <c:when test="${pro.progress == '报价'}">
-                                        <span class="label label-primary pull-right">${pro.progress}</span>
-                                    </c:when>
-                                    <c:when test="${pro.progress == '成交'}">
-                                        <span class="label label-success pull-right">${pro.progress}</span>
-                                    </c:when>
-                                    <c:when test="${pro.progress == '暂时搁置'}">
-                                        <span class="label label-danger pull-right">${pro.progress}</span>
-                                    </c:when>
-                                </c:choose>
-
-                            </div>
-                            <div class="panel-body">
-                                ${pro.mark}
-                            </div>
-                            <c:choose>
-                                <c:when test="${sessionScope.curr_user.id == pro.user.id}">
-                                    <c:if test="${not empty pro.progressFileList}">
-                                        <div class="panel-footer">
-                                            <c:forEach items="${pro.progressFileList}" var="file">
-                                                <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
-                                            </c:forEach>
-                                        </div>
-                                    </c:if>
-                                </c:when>
-                                <c:otherwise>
-                                    <shiro:hasRole name="经理">
-                                        <c:if test="${not empty pro.progressFileList}">
-                                            <div class="panel-footer">
-                                                <c:forEach items="${pro.progressFileList}" var="file">
-                                                    <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
-                                                </c:forEach>
-                                            </div>
-                                        </c:if>
-                                    </shiro:hasRole>
-                                </c:otherwise>
-                            </c:choose>
-
-
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-list"></i> 跟进列表
+                            <button class="btn btn-primary pull-right btn-xs" id="newBtn"><i class="fa fa-plus"></i> 新增跟进信息</button>
                         </div>
-                    </c:forEach>
+                        <div class="panel-body">
+                            <c:forEach items="${page.items}" var="pro">
+                            <c:choose>
+                            <c:when test="${pro.progress == '成交'}">
+                            <div class="panel panel-success">
+                                </c:when>
+                                <c:when test="${pro.progress == '暂时搁置'}">
+                                <div class="panel panel-danger">
+                                    </c:when>
+                                    <c:otherwise>
+                                    <div class="panel panel-default">
+                                        </c:otherwise>
+                                        </c:choose>
+
+                                        <div class="panel-heading">
+                                            <i class="fa fa-calendar"></i> ${pro.monthAndDay} - <span class="text-muted">${pro.user.username}</span> - ${pro.customer.custname}
+                                            <c:choose>
+                                                <c:when test="${pro.progress == '初访'}">
+                                                    <span class="label label-default pull-right">${pro.progress}</span>
+                                                </c:when>
+                                                <c:when test="${pro.progress == '意向'}">
+                                                    <span class="label label-info pull-right">${pro.progress}</span>
+                                                </c:when>
+                                                <c:when test="${pro.progress == '报价'}">
+                                                    <span class="label label-primary pull-right">${pro.progress}</span>
+                                                </c:when>
+                                                <c:when test="${pro.progress == '成交'}">
+                                                    <span class="label label-success pull-right">${pro.progress}</span>
+                                                </c:when>
+                                                <c:when test="${pro.progress == '暂时搁置'}">
+                                                    <span class="label label-danger pull-right">${pro.progress}</span>
+                                                </c:when>
+                                            </c:choose>
+
+                                        </div>
+                                        <div class="panel-body">
+                                                ${pro.mark}
+                                        </div>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.curr_user.id == pro.user.id}">
+                                                <c:if test="${not empty pro.progressFileList}">
+                                                    <div class="panel-footer">
+                                                        <c:forEach items="${pro.progressFileList}" var="file">
+                                                            <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
+                                                        </c:forEach>
+                                                    </div>
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <shiro:hasRole name="经理">
+                                                    <c:if test="${not empty pro.progressFileList}">
+                                                        <div class="panel-footer">
+                                                            <c:forEach items="${pro.progressFileList}" var="file">
+                                                                <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
+                                                            </c:forEach>
+                                                        </div>
+                                                    </c:if>
+                                                </shiro:hasRole>
+                                            </c:otherwise>
+                                        </c:choose>
+
+
+                                    </div>
+                                    </c:forEach>
+                        </div>
+                    </div>
+
                     <ul id="pagination" class="pagination-sm pull-right"></ul>
                 </div>
                 <!-- /.col-lg-12 -->
