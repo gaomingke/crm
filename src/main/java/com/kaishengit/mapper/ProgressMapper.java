@@ -25,4 +25,11 @@ public interface ProgressMapper {
      * @param progress
      */
     void save(Progress progress);
+
+    /**
+     * 根据客户Id，查询对应的跟进记录
+     * @param id 客户ID
+     * @return
+     */
+    List<Progress> findByCustId(Integer id);
 }

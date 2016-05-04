@@ -17,4 +17,11 @@ public interface ProgressFileMapper {
      * @return
      */
     List<ProgressFile> findByProgressId(Integer progressId);
+
+    /**
+     * 根据客户ID，获取关联的文件
+     * @param id
+     * @return
+     */
+    List<ProgressFile> findByCustId(Integer id);
 }

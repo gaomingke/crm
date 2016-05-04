@@ -51,6 +51,9 @@
         limit ${start},${end}
 
     </select>
+    <select id="findByCustId" resultType="com.kaishengit.pojo.Progress" resultMap="progressMap">
+        SELECT * FROM t_progress WHERE custid = #{id} order by id desc
+    </select>
 
     <resultMap id="progressMap" type="Progress">
         <id property="id" column="id"/>

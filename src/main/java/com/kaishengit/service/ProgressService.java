@@ -1,8 +1,10 @@
 package com.kaishengit.service;
 
 import com.google.common.collect.Maps;
+import com.kaishengit.mapper.CustomerMapper;
 import com.kaishengit.mapper.ProgressFileMapper;
 import com.kaishengit.mapper.ProgressMapper;
+import com.kaishengit.pojo.Customer;
 import com.kaishengit.pojo.Progress;
 import com.kaishengit.pojo.ProgressFile;
 import com.kaishengit.util.Page;
@@ -31,6 +33,8 @@ public class ProgressService {
     private ProgressFileMapper progressFileMapper;
     @Inject
     private QiniuUtil qiniuUtil;
+    @Inject
+    private CustomerMapper customerMapper;
 
     /**
      * 根据首页显示数据
@@ -83,7 +87,7 @@ public class ProgressService {
         }
 
         int count = progressMapper.countByParam(param);
-        Page<Progress> page = new Page<>(p,count,2);
+        Page<Progress> page = new Page<>(p,count,10);
         param.put("start",page.getStart());
         param.put("end",page.getSize());
 
@@ -99,6 +103,13 @@ public class ProgressService {
      * @param file 关联文件集合
      */
     public void saveNewProgress(Progress progress,MultipartFile[] file) {
+        //更新客户的最近跟进信息
+        Customer customer = customerMapper.findById(progress.getCustid());
+        customer.setProgress(progress.getProgress());
+        customer.setProgresstime(DateTime.now().toString("yyyy-MM-dd HH:mm"));
+        customerMapper.update(customer);
+
+
         progress.setUserid(ShiroUtil.getCurrentUserId());
         progress.setCreatetime(DateTime.now().toString("yyyy-MM-dd HH:mm"));
 
@@ -126,5 +137,23 @@ public class ProgressService {
                 }
             }
         }
+    }
+
+    /**
+     * 根据客户Id，查询对应的跟进记录
+     * @param id 客户ID
+     * @return
+     */
+    public List<Progress> findProgressByCustId(Integer id) {
+        return progressMapper.findByCustId(id);
+    }
+
+    /**
+     * 根据客户ID，获取关联的文件
+     * @param id
+     * @return
+     */
+    public List<ProgressFile> findProgressFileByCustId(Integer id) {
+        return progressFileMapper.findByCustId(id);
     }
 }

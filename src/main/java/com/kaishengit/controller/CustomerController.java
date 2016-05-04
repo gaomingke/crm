@@ -5,17 +5,18 @@ import com.kaishengit.dto.Message;
 import com.kaishengit.exception.ForbiddenException;
 import com.kaishengit.exception.NotFoundException;
 import com.kaishengit.pojo.Customer;
+import com.kaishengit.pojo.Progress;
+import com.kaishengit.pojo.ProgressFile;
 import com.kaishengit.pojo.User;
 import com.kaishengit.service.CustomerService;
+import com.kaishengit.service.ProgressService;
 import com.kaishengit.service.UserService;
 import com.kaishengit.util.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
@@ -31,6 +32,9 @@ public class CustomerController {
     private CustomerService customerService;
     @Inject
     private UserService userService;
+    @Inject
+    private ProgressService progressService;
+
 
     @RequestMapping(method = RequestMethod.GET)
     public String list() {
@@ -110,9 +114,13 @@ public class CustomerController {
     public String viewCustomer(@PathVariable Integer id, Model model) {
         Customer customer = customerService.findCustomerById(id);
         List<User> userList = userService.findAllUser();
+        List<Progress> progressList = progressService.findProgressByCustId(id);
+        List<ProgressFile> fileList = progressService.findProgressFileByCustId(id);
 
         model.addAttribute("customer",customer);
         model.addAttribute("userList",userList);
+        model.addAttribute("progressList",progressList);
+        model.addAttribute("fileList",fileList);
         return "customer/view";
     }
 
@@ -167,6 +175,17 @@ public class CustomerController {
             result.put("message","权限不足");
         }
         return result;
+    }
+
+    /**
+     * 新增跟进记录
+     */
+    @RequestMapping(value = "/progress/new",method = RequestMethod.POST)
+    public String newProgress(Progress progress,@RequestParam MultipartFile[] file,RedirectAttributes redirectAttributes) {
+        progressService.saveNewProgress(progress,file);
+
+        redirectAttributes.addFlashAttribute("message",new Message(Message.SUCCESS,"添加成功"));
+        return "redirect:/customer/"+progress.getCustid();
     }
 
 

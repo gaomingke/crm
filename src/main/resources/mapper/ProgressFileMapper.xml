@@ -11,6 +11,9 @@
     <select id="findByProgressId" resultType="com.kaishengit.pojo.ProgressFile">
         SELECT * FROM t_progress_file WHERE progressid = #{progressId}
     </select>
+    <select id="findByCustId" resultType="com.kaishengit.pojo.ProgressFile">
+        SELECT * FROM t_progress_file WHERE custid = #{id}
+    </select>
 
 
 </mapper>

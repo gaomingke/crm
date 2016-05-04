@@ -34,7 +34,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
             border-top: none;
         }
     </style>
@@ -44,7 +44,7 @@
 
 <div id="wrapper">
 
-    <%@ include file="../include/nav.jsp"%>
+    <%@ include file="../include/nav.jsp" %>
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -59,12 +59,15 @@
                             </c:if>
 
                             <shiro:hasRole name="经理">
-                                <a href="javascript:;" id="delLink" class="btn btn-xs btn-danger pull-right" style="margin-left:15px;">删除</a>
+                                <a href="javascript:;" id="delLink" class="btn btn-xs btn-danger pull-right"
+                                   style="margin-left:15px;">删除</a>
                             </shiro:hasRole>
                             <a href="" class="btn btn-xs btn-info pull-right" style="margin-left:15px;">编辑</a>
                             <c:if test="${not empty customer.userid}">
-                                <a href="javascript:;" id="publicCustomer" class="btn btn-xs btn-warning pull-right" style="margin-left:15px;">公开客户</a>
-                                <a href="javascript:;" id="tranCustomer" class="btn btn-xs btn-primary pull-right" style="margin-left:15px;">转交客户</a>
+                                <a href="javascript:;" id="publicCustomer" class="btn btn-xs btn-warning pull-right"
+                                   style="margin-left:15px;">公开客户</a>
+                                <a href="javascript:;" id="tranCustomer" class="btn btn-xs btn-primary pull-right"
+                                   style="margin-left:15px;">转交客户</a>
                             </c:if>
 
                         </div>
@@ -100,20 +103,117 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-9 col-md-9">
                             <div class="panel panel-default">
-                                <div class="panel-heading">跟进信息</div>
-                            </div>
-                            <div class="panel-body">
-                                xxx
+                                <div class="panel-heading">
+                                    跟进信息
+                                    <button id="addProgress" class="btn btn-default btn-xs pull-right"> <i class="fa fa-plus"></i> 添加跟进信息</button>
+                                </div>
+                                <div class="panel-body">
+                                    <c:if test="${empty progressList}">
+                                        <h5>暂时没有跟进信息</h5>
+                                    </c:if>
+                                    <c:forEach items="${progressList}" var="pro">
+                                    <c:choose>
+                                    <c:when test="${pro.progress == '成交'}">
+                                    <div class="panel panel-success">
+                                        </c:when>
+                                        <c:when test="${pro.progress == '暂时搁置'}">
+                                        <div class="panel panel-danger">
+
+                                            </c:when>
+                                            <c:otherwise>
+                                            <div class="panel panel-default">
+                                                </c:otherwise>
+                                                </c:choose>
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-calendar"></i> ${pro.monthAndDay} - <span
+                                                        class="text-muted">${pro.user.username}</span>
+                                                    <c:choose>
+                                                        <c:when test="${pro.progress == '初访'}">
+                                                            <span class="label label-default pull-right">${pro.progress}</span>
+                                                        </c:when>
+                                                        <c:when test="${pro.progress == '意向'}">
+                                                            <span class="label label-info pull-right">${pro.progress}</span>
+                                                        </c:when>
+                                                        <c:when test="${pro.progress == '报价'}">
+                                                            <span class="label label-primary pull-right">${pro.progress}</span>
+                                                        </c:when>
+                                                        <c:when test="${pro.progress == '成交'}">
+                                                            <span class="label label-success pull-right">${pro.progress}</span>
+                                                        </c:when>
+                                                        <c:when test="${pro.progress == '暂时搁置'}">
+                                                            <span class="label label-danger pull-right">${pro.progress}</span>
+                                                        </c:when>
+                                                    </c:choose>
+
+                                                </div>
+                                                <div class="panel-body">
+                                                        ${pro.mark}
+                                                </div>
+                                                <c:choose>
+                                                    <c:when test="${sessionScope.curr_user.id == pro.user.id}">
+                                                        <c:if test="${not empty pro.progressFileList}">
+                                                            <div class="panel-footer">
+                                                                <c:forEach items="${pro.progressFileList}" var="file">
+                                                                    <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </c:if>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <shiro:hasRole name="经理">
+                                                            <c:if test="${not empty pro.progressFileList}">
+                                                                <div class="panel-footer">
+                                                                    <c:forEach items="${pro.progressFileList}"
+                                                                               var="file">
+                                                                        <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
+                                                                    </c:forEach>
+                                                                </div>
+                                                            </c:if>
+                                                        </shiro:hasRole>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+
+                                            </div>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <i class="fa fa-tasks"></i> 待办事件
+                                        </div>
+                                        <div class="panel-body">
+
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <i class="fa fa-file"></i> 相关文件
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-unstyled">
+                                                <c:if test="${empty fileList}">
+                                                    <li>暂时没有文件</li>
+                                                </c:if>
+                                                <c:forEach items="${fileList}" var="file">
+                                                    <li><a href="${file.path}?attname=${file.filename}">${file.filename}</a></li>
+                                                </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            x
-                        </div>
+
                     </div>
-
-
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -130,7 +230,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">请选择转交的用户</h4>
             </div>
             <div class="modal-body">
@@ -149,6 +250,47 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="progressModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增跟进记录</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/customer/progress/new" method="post" id="newForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>客户</label>
+                        <input type="hidden" value="${customer.id}" name="custid">
+                        <input type="text" class="form-control" value="${customer.custname}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>选择进度</label>
+                        <select name="progress" class="form-control">
+                            <option value="初访">初访</option>
+                            <option value="意向">意向</option>
+                            <option value="报价">报价</option>
+                            <option value="成交">成交</option>
+                            <option value="暂时搁置">暂时搁置</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>内容</label>
+                        <textarea name="mark" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="form-group" id="fileControls">
+                        <label>相关文件 <button type="button" class="btn btn-default btn-xs" id="addFileControl"><i class="fa fa-plus"></i></button></label>
+                        <input type="file" name="file" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- jQuery -->
 <script src="/static/js/jquery.min.js"></script>
@@ -162,46 +304,55 @@
 <!-- Custom Theme JavaScript -->
 <script src="/static/js/sb-admin-2.js"></script>
 <script>
-    $(function(){
+    $(function () {
+
+        //添加跟进信息
+        $("#addProgress").click(function(){
+            $("#progressModal").modal('show');
+        });
+        $("#saveBtn").click(function(){
+            $("#newForm").submit();
+        });
+
 
         //删除客户
-        $("#delLink").click(function(){
-            if(confirm("删除客户后，客户资料和跟进记录会全部删除，确定吗")) {
+        $("#delLink").click(function () {
+            if (confirm("删除客户后，客户资料和跟进记录会全部删除，确定吗")) {
                 window.location.href = "/customer/del/${customer.id}";
             }
         });
 
-    <c:if test="${not empty customer.userid}">
+        <c:if test="${not empty customer.userid}">
         //公开客户
-        $("#publicCustomer").click(function(){
-            if(confirm("客户公开后，所有的用户都可以看到该客户的信息,确定吗")) {
-                $.post("/customer/public/${customer.id}").done(function(result){
-                    if(result.state != "success") {
+        $("#publicCustomer").click(function () {
+            if (confirm("客户公开后，所有的用户都可以看到该客户的信息,确定吗")) {
+                $.post("/customer/public/${customer.id}").done(function (result) {
+                    if (result.state != "success") {
                         alert(result.message);
                     } else {
                         window.history.go(0);
                     }
-                }).fail(function(){
+                }).fail(function () {
                     alert("操作异常");
                 });
             }
         });
 
         //转交客户
-        $("#tranCustomer").click(function(){
+        $("#tranCustomer").click(function () {
             $("#tranModal").modal("show");
         });
-        $("#tranBtn").click(function(){
+        $("#tranBtn").click(function () {
             var userId = $("#userid").val();
-            if(userId) {
-                $.post("/customer/tran/${customer.id}/"+userId).done(function(result){
-                    if(result.state != "success") {
+            if (userId) {
+                $.post("/customer/tran/${customer.id}/" + userId).done(function (result) {
+                    if (result.state != "success") {
                         alert(result.message);
                     } else {
                         alert("转交成功");
                         window.location.href = "/customer";
                     }
-                }).fail(function(){
+                }).fail(function () {
                     alert("操作异常");
                 });
 
@@ -209,7 +360,7 @@
         });
 
 
-    </c:if>
+        </c:if>
 
 
     });
