@@ -83,7 +83,7 @@ public class ProgressService {
         }
 
         int count = progressMapper.countByParam(param);
-        Page<Progress> page = new Page<>(p,count,10);
+        Page<Progress> page = new Page<>(p,count,2);
         param.put("start",page.getStart());
         param.put("end",page.getSize());
 

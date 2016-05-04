@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -132,13 +133,30 @@
                             <div class="panel-body">
                                 ${pro.mark}
                             </div>
-                            <c:if test="${not empty pro.progressFileList}">
-                                <div class="panel-footer">
-                                    <c:forEach items="${pro.progressFileList}" var="file">
-                                        <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
-                                    </c:forEach>
-                                </div>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${sessionScope.curr_user.id == pro.user.id}">
+                                    <c:if test="${not empty pro.progressFileList}">
+                                        <div class="panel-footer">
+                                            <c:forEach items="${pro.progressFileList}" var="file">
+                                                <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
+                                            </c:forEach>
+                                        </div>
+                                    </c:if>
+                                </c:when>
+                                <c:otherwise>
+                                    <shiro:hasRole name="经理">
+                                        <c:if test="${not empty pro.progressFileList}">
+                                            <div class="panel-footer">
+                                                <c:forEach items="${pro.progressFileList}" var="file">
+                                                    <a href="${file.path}?attname=${file.filename}">${file.filename}</a>
+                                                </c:forEach>
+                                            </div>
+                                        </c:if>
+                                    </shiro:hasRole>
+                                </c:otherwise>
+                            </c:choose>
+
+
                         </div>
                     </c:forEach>
                     <ul id="pagination" class="pagination-sm pull-right"></ul>
