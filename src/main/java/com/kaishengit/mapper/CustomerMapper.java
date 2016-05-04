@@ -51,4 +51,11 @@ public interface CustomerMapper {
      * @param customer
      */
     void update(Customer customer);
+
+    /**
+     * 根据用户ID获取用户的客户以及公开客户
+     * @param currentUserId
+     * @return
+     */
+    List<Customer> findByUserIdAndEmptyUserId(Integer currentUserId);
 }

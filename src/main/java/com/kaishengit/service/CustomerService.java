@@ -166,4 +166,12 @@ public class CustomerService {
             }
         }
     }
+
+    /**
+     * 根据当前登录的用户获取对应的客户
+     * @return
+     */
+    public List<Customer> findCustomerByCurrentUser() {
+        return customerMapper.findByUserIdAndEmptyUserId(ShiroUtil.getCurrentUserId());
+    }
 }

@@ -61,6 +61,9 @@
     <select id="findById" resultType="com.kaishengit.pojo.Customer">
         SELECT * FROM t_customer WHERE id = #{id}
     </select>
+    <select id="findByUserIdAndEmptyUserId" resultType="com.kaishengit.pojo.Customer">
+        SELECT * FROM t_customer WHERE userid = #{currentUserId} or userid is null
+    </select>
 
 
 </mapper>

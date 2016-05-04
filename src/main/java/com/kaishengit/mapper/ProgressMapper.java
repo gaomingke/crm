@@ -1,0 +1,28 @@
+package com.kaishengit.mapper;
+
+import com.kaishengit.pojo.Progress;
+
+import java.util.List;
+import java.util.Map;
+
+public interface ProgressMapper {
+    /**
+     * 根据查询参数统计总记录数
+     * @param param
+     * @return
+     */
+    int countByParam(Map<String, Object> param);
+
+    /**
+     * 根据查询参数获取记录
+     * @param param
+     * @return
+     */
+    List<Progress> findByParam(Map<String, Object> param);
+
+    /**
+     * 保存新的进度对象
+     * @param progress
+     */
+    void save(Progress progress);
+}

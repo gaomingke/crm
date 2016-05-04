@@ -43,7 +43,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="record.html"><i class="fa fa-table fa-fw"></i> 跟进</a>
+                    <a href="/progress"><i class="fa fa-table fa-fw"></i> 跟进</a>
                 </li>
                 <li>
                     <a href="task.html"><i class="fa fa-edit fa-fw"></i> 待办</a>

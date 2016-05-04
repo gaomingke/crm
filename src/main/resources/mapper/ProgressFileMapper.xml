@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.ProgressFileMapper">
+
+    <cache/>
+
+    <insert id="save">
+        INSERT INTO t_progress_file(filename,path,createtime,custid,userid,progressid)
+        VALUES (#{filename},#{path},#{createtime},#{custid},#{userid},#{progressid})
+    </insert>
+    <select id="findByProgressId" resultType="com.kaishengit.pojo.ProgressFile">
+        SELECT * FROM t_progress_file WHERE progressid = #{progressId}
+    </select>
+
+
+</mapper>
