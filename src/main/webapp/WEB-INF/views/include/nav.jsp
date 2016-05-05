@@ -46,7 +46,7 @@
                     <a href="/progress"><i class="fa fa-table fa-fw"></i> 跟进</a>
                 </li>
                 <li>
-                    <a href="task.html"><i class="fa fa-edit fa-fw"></i> 待办</a>
+                    <a href="/task"><i class="fa fa-edit fa-fw"></i> 待办</a>
                 </li>
                 <li>
                     <a href="chart.html"><i class="fa fa-bar-chart"></i> 统计</a>
