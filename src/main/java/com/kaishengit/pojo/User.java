@@ -16,6 +16,8 @@ public class User implements Serializable {
     private String createtime;
     private String state;
     private List<Role> roleList;
+    private String weixinid;
+    private String userid;
 
     public Integer getId() {
         return id;
@@ -71,5 +73,21 @@ public class User implements Serializable {
 
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
+    }
+
+    public String getWeixinid() {
+        return weixinid;
+    }
+
+    public void setWeixinid(String weixinid) {
+        this.weixinid = weixinid;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

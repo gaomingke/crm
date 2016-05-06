@@ -121,20 +121,27 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-2 control-label">微信号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="weixinid">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">角色</label>
                         <div class="col-sm-10">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="role" value="1"> 管理员
+                                    <input type="checkbox" name="role" value="8"> 管理员
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="role" value="2"> 经理
+                                    <input type="checkbox" name="role" value="9"> 经理
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="role" value="3"> 普通员工
+                                    <input type="checkbox" name="role" value="10"> 普通员工
                                 </label>
                             </div>
                         </div>
+
                     </div>
                 </form>
             </div>
@@ -174,13 +181,13 @@
                         <div class="col-sm-10">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="role" value="1" class="role"> 管理员
+                                    <input type="checkbox" name="role" value="8" class="role"> 管理员
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="role" value="2" class="role"> 经理
+                                    <input type="checkbox" name="role" value="9" class="role"> 经理
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="role" value="3" class="role"> 普通员工
+                                    <input type="checkbox" name="role" value="10" class="role"> 普通员工
                                 </label>
                             </div>
                         </div>

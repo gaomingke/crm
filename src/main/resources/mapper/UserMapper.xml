@@ -5,8 +5,8 @@
 <mapper namespace="com.kaishengit.mapper.UserMapper">
     <cache/>
     <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO t_user(username,password,tel,state,createtime)
-        VALUES (#{username},#{password},#{tel},#{state},#{createtime})
+        INSERT INTO t_user(username,password,tel,state,createtime,userid,weixinid)
+        VALUES (#{username},#{password},#{tel},#{state},#{createtime},#{userid},#{weixinid})
     </insert>
     <insert id="saveUserAndRole">
         INSERT INTO role_user(userid,roleid) VALUES
