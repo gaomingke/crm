@@ -64,6 +64,16 @@
     <select id="findByUserIdAndEmptyUserId" resultType="com.kaishengit.pojo.Customer">
         SELECT * FROM t_customer WHERE userid = #{currentUserId} or userid is null
     </select>
+    <select id="findTotal" resultType="java.util.Map">
+        SELECT temp.custtype,
+        (SELECT COUNT(*) FROM t_customer WHERE t_customer.progress = temp.custtype) AS total
+        FROM (SELECT '初访' AS 'custtype'
+        UNION SELECT '意向'
+        UNION SELECT '报价'
+        UNION SELECT '成交'
+        UNION SELECT '暂时搁置'
+        UNION SELECT '无') AS temp
+    </select>
 
 
 </mapper>

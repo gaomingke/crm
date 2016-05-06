@@ -1,7 +1,9 @@
 package com.kaishengit.controller;
 
+import com.google.gson.Gson;
 import com.kaishengit.dto.Message;
 import com.kaishengit.pojo.User;
+import com.kaishengit.service.CustomerService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -12,9 +14,14 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.inject.Inject;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomeController {
@@ -22,12 +29,16 @@ public class HomeController {
     @Value("${user.salt}")
     private String passwordSalt;
 
+    @Inject
+    private CustomerService customerService;
+
     /**
      * 登录页面
      * @return
      */
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model) {
+
         return "index";
     }
 
@@ -85,7 +96,13 @@ public class HomeController {
      * 登录后的页面
      */
     @RequestMapping(value = "/home",method = RequestMethod.GET)
-    public String home() {
+    public String home(Model model) {
+        List<Map<String,Object>> result = customerService.homeTotal();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+
+        model.addAttribute("json",json);
         return "home";
     }
 

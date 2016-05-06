@@ -58,4 +58,10 @@ public interface CustomerMapper {
      * @return
      */
     List<Customer> findByUserIdAndEmptyUserId(Integer currentUserId);
+
+    /**
+     * 首页柱状图的统计
+     * @return
+     */
+    List<Map<String,Object>> findTotal();
 }

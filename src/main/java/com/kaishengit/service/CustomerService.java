@@ -174,4 +174,12 @@ public class CustomerService {
     public List<Customer> findCustomerByCurrentUser() {
         return customerMapper.findByUserIdAndEmptyUserId(ShiroUtil.getCurrentUserId());
     }
+
+    /**
+     * 首页的统计柱状图
+     * @return
+     */
+    public List<Map<String, Object>> homeTotal() {
+        return customerMapper.findTotal();
+    }
 }
