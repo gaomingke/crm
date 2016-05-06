@@ -18,4 +18,7 @@
     <select id="findById" resultType="com.kaishengit.pojo.Task">
         SELECT * FROM t_task WHERE id = #{taskId}
     </select>
+    <select id="findByCustIdAndState" resultType="com.kaishengit.pojo.Task">
+        SELECT * FROM t_task WHERE custid = #{param1} and done = #{param2}
+    </select>
 </mapper>

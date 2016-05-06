@@ -31,4 +31,12 @@ public interface TaskMapper {
      * @param task
      */
     void update(Task task);
+
+    /**
+     * 根据custid和状态查询相关待办任务
+     * @param id 客户ID
+     * @param b 状态 已完成 true 未完成 false
+     * @return
+     */
+    List<Task> findByCustIdAndState(Integer id, boolean b);
 }

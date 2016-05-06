@@ -187,7 +187,17 @@
                                             <i class="fa fa-tasks"></i> 待办事件
                                         </div>
                                         <div class="panel-body">
+                                            <ul class="list-unstyled">
+                                                <c:if test="${empty taskList}">
+                                                    <li>暂无任务</li>
+                                                </c:if>
+                                                <c:forEach items="${taskList}" var="task">
+                                                    <li>
+                                                            <input type="checkbox" rel="${task.id}" class="ckTask"> ${task.task}
+                                                    </li>
+                                                </c:forEach>
 
+                                            </ul>
                                         </div>
                                     </div>
                                     <div class="panel panel-default">
@@ -361,6 +371,20 @@
 
 
         </c:if>
+
+        //将待办任务完成
+        $(".ckTask").click(function(){
+            var $this = $(this);
+            var id = $this.attr("rel");
+            $.post("/customer/change/taskstate",{"taskId":id,"state":"true"}).done(function(result){
+                if(result == "success") {
+                    $this.parent().remove();
+                }
+            }).fail(function(){
+                alert("操作失败");
+            });
+
+        });
 
 
     });

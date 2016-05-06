@@ -4,12 +4,10 @@ import com.google.common.collect.Maps;
 import com.kaishengit.dto.Message;
 import com.kaishengit.exception.ForbiddenException;
 import com.kaishengit.exception.NotFoundException;
-import com.kaishengit.pojo.Customer;
-import com.kaishengit.pojo.Progress;
-import com.kaishengit.pojo.ProgressFile;
-import com.kaishengit.pojo.User;
+import com.kaishengit.pojo.*;
 import com.kaishengit.service.CustomerService;
 import com.kaishengit.service.ProgressService;
+import com.kaishengit.service.TaskService;
 import com.kaishengit.service.UserService;
 import com.kaishengit.util.Strings;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +32,8 @@ public class CustomerController {
     private UserService userService;
     @Inject
     private ProgressService progressService;
+    @Inject
+    private TaskService taskService;
 
 
     @RequestMapping(method = RequestMethod.GET)
@@ -116,11 +116,13 @@ public class CustomerController {
         List<User> userList = userService.findAllUser();
         List<Progress> progressList = progressService.findProgressByCustId(id);
         List<ProgressFile> fileList = progressService.findProgressFileByCustId(id);
+        List<Task> taskList = taskService.findunDoneTaskByCustId(id);
 
         model.addAttribute("customer",customer);
         model.addAttribute("userList",userList);
         model.addAttribute("progressList",progressList);
         model.addAttribute("fileList",fileList);
+        model.addAttribute("taskList",taskList);
         return "customer/view";
     }
 
@@ -188,6 +190,15 @@ public class CustomerController {
         return "redirect:/customer/"+progress.getCustid();
     }
 
+    /**
+     * 将待办任务完成
+     */
+    @RequestMapping(value = "/change/taskstate",method = RequestMethod.POST)
+    @ResponseBody
+    public String changeTaskState(String taskId,boolean state) {
+        taskService.changeTaskState(taskId,state);
+        return "success";
+    }
 
 
 

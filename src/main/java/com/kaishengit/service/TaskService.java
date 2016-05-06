@@ -62,4 +62,13 @@ public class TaskService {
             }
         }
     }
+
+    /**
+     * 根据客户id查询相关未完成的待办任务
+     * @param id
+     * @return
+     */
+    public List<Task> findunDoneTaskByCustId(Integer id) {
+        return taskMapper.findByCustIdAndState(id,false);
+    }
 }
